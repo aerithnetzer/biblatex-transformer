@@ -1,4 +1,4 @@
-name: /Users/aerith/warlock/biblatex-transformer/.conda
+name: .conda
 channels:
   - pytorch
   - conda-forge
