@@ -1,0 +1,182 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{nty/global//global/global}
+  \entry{PandocIndex}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{P}
+    \field{sortinithash}{P}
+    \field{howpublished}{https://pandoc.org/}
+    \field{title}{Pandoc - Index}
+    \verb{file}
+    \verb /Users/ysc4337/Zotero/storage/MZK2NKMJ/pandoc.org.html
+    \endverb
+    \field{urlday}{08}
+    \field{urlmonth}{03}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{chienReducingCarbonImpact2023}{inproceedings}{}
+    \name{author}{6}{}{%
+      {{hash=CAA}{%
+         family={Chien},
+         familyi={C\bibinitperiod},
+         given={Andrew\bibnamedelima A},
+         giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=LL}{%
+         family={Lin},
+         familyi={L\bibinitperiod},
+         given={Liuzixuan},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=NH}{%
+         family={Nguyen},
+         familyi={N\bibinitperiod},
+         given={Hai},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=RV}{%
+         family={Rao},
+         familyi={R\bibinitperiod},
+         given={Varsha},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=ST}{%
+         family={Sharma},
+         familyi={S\bibinitperiod},
+         given={Tristan},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=WR}{%
+         family={Wijayawardana},
+         familyi={W\bibinitperiod},
+         given={Rajini},
+         giveni={R\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {ACM}%
+    }
+    \field{labeltitlesource}{title}
+    \field{sortinit}{R}
+    \field{sortinithash}{R}
+    \field{abstract}{%
+    Generative AI, exemplified in ChatGPT, Dall-E 2, and Stable Diffusion, are
+  exciting new applications consuming growing quantities of computing. We study
+  the compute, energy, and carbon impacts of generative AI inference. Using
+  ChatGPT as an exemplar, we create a workload model and compare request
+  direction approaches (Local, Balance, CarbonMin), assessing their power use
+  and carbon impacts.%
+    }
+    \field{booktitle}{Proceedings of the 2nd {{Workshop}} on {{Sustainable
+  Computer Systems}}}
+    \verb{doi}
+    \verb 10.1145/3604930.3605705
+    \endverb
+    \field{isbn}{979-8-4007-0242-6}
+    \field{pages}{1\bibrangedash 7}
+    \field{title}{Reducing the {{Carbon Impact}} of {{Generative AI Inference}}
+  (Today and in 2035)}
+    \field{langid}{english}
+    \list{location}{1}{%
+      {Boston MA USA}%
+    }
+    \verb{file}
+    \verb /Users/ysc4337/Zotero/storage/EI4LZ7HN/Chien et al. - 2023 - Reducing
+    \verb  the Carbon Impact of Generative AI Inference (today and in 2035).pdf
+    \endverb
+    \field{month}{07}
+    \field{year}{2023}
+    \field{urlday}{31}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{dingSustainableLLMServing2024}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=DY}{%
+         family={Ding},
+         familyi={D\bibinitperiod},
+         given={Yi},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=ST}{%
+         family={Shi},
+         familyi={S\bibinitperiod},
+         given={Tianyao},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \keyw{Accuracy,Carbon footprint,Energy consumption,Green products,Large
+  language models,Natural languages,Training}
+    \field{labeltitlesource}{shorttitle}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{abstract}{%
+    Large language models (LLMs) have been widely used for their ability to
+  handle complex natural language tasks with high accuracy. The lifecycle of
+  LLMs development and deployment encompasses both training and serving phases.
+  Although training takes months and consumes significant amounts of energy,
+  recent studies show that the energy consumption of LLM serving has now
+  surpassed that of training, leading to significant environmental impacts,
+  especially in terms of carbon footprints. While much prior work has focused
+  on improving LLM performance, the specific challenge of reducing the carbon
+  footprint of LLM serving has been largely overlooked. This paper identifies
+  key challenges and outlines research directions for making LLM serving more
+  sustainable, aiming to inspire further environmentally responsible
+  advancements in the field.%
+    }
+    \field{booktitle}{2024 {{IEEE}} 15th {{International Green}} and
+  {{Sustainable Computing Conference}} ({{IGSC}})}
+    \verb{doi}
+    \verb 10.1109/IGSC64514.2024.00016
+    \endverb
+    \field{issn}{2993-2084}
+    \field{pages}{37\bibrangedash 38}
+    \field{shorttitle}{Sustainable {{LLM Serving}}}
+    \field{title}{Sustainable {{LLM Serving}}: {{Environmental Implications}},
+  {{Challenges}}, and {{Opportunities}} : {{Invited Paper}}}
+    \verb{file}
+    \verb /Users/ysc4337/Zotero/storage/2TEL46DI/Ding and Shi - 2024 - Sustaina
+    \verb ble LLM Serving Environmental Implications, Challenges, and Opportuni
+    \verb ties Invited Paper.pdf;/Users/ysc4337/Zotero/storage/X7BJCC9E/1076582
+    \verb 4.html
+    \endverb
+    \field{month}{11}
+    \field{year}{2024}
+    \field{urlday}{31}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{ZoteroYourPersonal}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{Z}
+    \field{sortinithash}{Z}
+    \field{howpublished}{https://www.zotero.org/}
+    \field{title}{Zotero {\textbar} {{Your}} Personal Research Assistant}
+    \verb{file}
+    \verb /Users/ysc4337/Zotero/storage/BLML8GJK/www.zotero.org.html
+    \endverb
+    \field{urlday}{31}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+\enddatalist
+\endinput
