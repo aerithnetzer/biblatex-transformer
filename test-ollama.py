@@ -127,106 +127,107 @@ def compare_bibtex_entries(bibtex1, bibtex2):
 
 def main():
     # CSV file path
-    csv_file = 'output.csv'  # Update this path to your CSV file
+    csv_file = 'output copy.csv'  # Update this path to your CSV file
     df = pd.read_csv(csv_file)
 
     # List of models to test (ensure these models are installed in Ollama)
-    models = ['llama2:7b', 'llama3:8b', 'tinyllama', 'mistral', 'codegemma:2b',
-              'codegemma:7b', 'starcoder2:3b']  # Replace with your installed model names
-
-    results = []
+    models = [
+        'llama3.3:70b', 'llama2:7b', 'llama3:8b', 'tinyllama', 'mistral', 'codegemma:2b',
+        'codegemma:7b', 'starcoder2:3b'
+    ]  # Replace with your installed model names
 
     for model in models:
         print(f"Testing model: {model}")
-        model_results = []
-        for index, row in df.iterrows():
-            plain_text_citation = row['Plain Text Citation']
-            actual_bibtex = row['BibTeX Citation']
-            prompt = create_prompt(plain_text_citation)
+        results = []
 
-            try:
-                signal.alarm(90)
+        with open(f'results/{model}_comparison_results.csv', 'w', newline='') as csvfile:
+            fieldnames = [
+                'Model', 'Index', 'PlainTextCitation', 'GeneratedBibTeX', 'TimeToGeneration',
+                'ActualBibTeX', 'TotalFields', 'MatchingFields', 'PercentageMatch',
+                'NonMatchingFields', 'FieldComparisons', 'Error'
+            ]
+            writer = csv.DictWriter(
+                csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_NONNUMERIC, quotechar='"')
+            writer.writeheader()
 
-                start_generation_time = time.time()
-                generated_bibtex = generate_text_with_ollama(model, prompt)
-                end_generation_time = time.time()
-                print(f"Generated BibTeX: {generated_bibtex}")
-                generated_bibtex = extract_bibtex(generated_bibtex)
+            for index, row in df.iterrows():
+                plain_text_citation = row['Plain Text Citation']
+                actual_bibtex = row['BibTeX Citation']
+                prompt = create_prompt(plain_text_citation)
 
-                # Remove newlines from generated and actual BibTeX
-                generated_bibtex_single_line = generated_bibtex.replace(
-                    '\n', ' ').replace('\r', '')
-                actual_bibtex_single_line = actual_bibtex.replace(
-                    '\n', ' ').replace('\r', '')
+                try:
+                    signal.alarm(90)
 
-                # Compare the BibTeX entries field by field
-                field_comparisons = compare_bibtex_entries(
-                    actual_bibtex, generated_bibtex)
-                if field_comparisons:
-                    field_comparison = field_comparisons[0]
-                    total_fields = len(field_comparison)
-                    matching_fields = sum(
-                        1 for v in field_comparison.values() if v['Match'])
-                    percentage_match = (
-                        matching_fields / total_fields) * 100 if total_fields > 0 else 0
-                    # Prepare a summary of non-matching fields
-                    non_matching_fields = [
-                        f for f, v in field_comparison.items() if not v['Match']]
-                    # Optionally, store detailed field comparisons as JSON string
-                    field_comparison_json = json.dumps(field_comparison)
-                else:
-                    # Handle empty comparisons
-                    total_fields = 0
-                    matching_fields = 0
-                    percentage_match = 0
-                    non_matching_fields = []
-                    field_comparison_json = ''
+                    start_generation_time = time.time()
+                    generated_bibtex = generate_text_with_ollama(model, prompt)
+                    end_generation_time = time.time()
+                    print(f"Generated BibTeX: {generated_bibtex}")
+                    generated_bibtex = extract_bibtex(generated_bibtex)
 
-                model_results.append({
-                    'Model': model,
-                    'Index': index,
-                    'PlainTextCitation': plain_text_citation,
-                    'GeneratedBibTeX': generated_bibtex_single_line,
-                    'TimeToGeneration': end_generation_time - start_generation_time,
-                    'ActualBibTeX': actual_bibtex_single_line,
-                    'TotalFields': total_fields,
-                    'MatchingFields': matching_fields,
-                    'PercentageMatch': percentage_match,
-                    'NonMatchingFields': ', '.join(non_matching_fields),
-                    'FieldComparisons': field_comparison_json  # Optional detailed comparisons
-                })
+                    # Remove newlines from generated and actual BibTeX
+                    generated_bibtex_single_line = generated_bibtex.replace(
+                        '\n', ' ').replace('\r', '')
+                    actual_bibtex_single_line = actual_bibtex.replace(
+                        '\n', ' ').replace('\r', '')
 
-                result_text = f"{
-                    matching_fields}/{total_fields} fields matched ({percentage_match:.1f}%)"
-                print(f"Processed citation {index} with model {
-                      model}: {result_text}")
+                    # Compare the BibTeX entries field by field
+                    field_comparisons = compare_bibtex_entries(
+                        actual_bibtex, generated_bibtex)
+                    if field_comparisons:
+                        field_comparison = field_comparisons[0]
+                        total_fields = len(field_comparison)
+                        matching_fields = sum(
+                            1 for v in field_comparison.values() if v['Match'])
+                        percentage_match = (
+                            matching_fields / total_fields) * 100 if total_fields > 0 else 0
+                        # Prepare a summary of non-matching fields
+                        non_matching_fields = [
+                            f for f, v in field_comparison.items() if not v['Match']]
+                        # Optionally, store detailed field comparisons as JSON string
+                        field_comparison_json = json.dumps(field_comparison)
+                    else:
+                        # Handle empty comparisons
+                        total_fields = 0
+                        matching_fields = 0
+                        percentage_match = 0
+                        non_matching_fields = []
+                        field_comparison_json = ''
 
-            except Exception as e:
-                print(f"Error processing citation index {
-                      index} with model {model}: {e}")
-                model_results.append({
-                    'Model': model,
-                    'Index': "null",
-                    'PlainTextCitation': "null",
-                    'GeneratedBibTeX': 'null',
-                    'ActualBibTeX': 'null',
-                    'TotalFields': 0,
-                    'MatchingFields': 0,
-                    'PercentageMatch': 0,
-                    'NonMatchingFields': 'null',
-                    'FieldComparisons': 'null',
-                    'Error': str(e)
-                })
+                    result = {
+                        'Model': model,
+                        'Index': index,
+                        'PlainTextCitation': plain_text_citation,
+                        'GeneratedBibTeX': generated_bibtex_single_line,
+                        'TimeToGeneration': end_generation_time - start_generation_time,
+                        'ActualBibTeX': actual_bibtex_single_line,
+                        'TotalFields': total_fields,
+                        'MatchingFields': matching_fields,
+                        'PercentageMatch': percentage_match,
+                        'NonMatchingFields': ', '.join(non_matching_fields),
+                        'FieldComparisons': field_comparison_json,  # Optional detailed comparisons
+                        'Error': ''
+                    }
+                    writer.writerow(result)
+                    print(f"Processed citation {index} with model {model}: {
+                          matching_fields}/{total_fields} fields matched ({percentage_match:.1f}%)")
 
-            # Collect results
-            results.extend(model_results)
-
-        # Convert the results to a DataFrame for analysis
-            results_df = pd.DataFrame(results)
-# Save results to CSV
-            results_df.to_csv(f'results/{model}_comparison_results.csv',
-                              index=False, quoting=csv.QUOTE_NONNUMERIC, quotechar='"')
-            print(f"Results saved to results/{model}_comparison_results.csv")
+                except Exception as e:
+                    print(f"Error processing citation index {
+                          index} with model {model}: {e}")
+                    result = {
+                        'Model': model,
+                        'Index': "null",
+                        'PlainTextCitation': "null",
+                        'GeneratedBibTeX': 'null',
+                        'ActualBibTeX': 'null',
+                        'TotalFields': 0,
+                        'MatchingFields': 0,
+                        'PercentageMatch': 0,
+                        'NonMatchingFields': 'null',
+                        'FieldComparisons': 'null',
+                        'Error': str(e)
+                    }
+                    writer.writerow(result)
 
 
 if __name__ == '__main__':

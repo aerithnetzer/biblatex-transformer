@@ -15,7 +15,14 @@ From: ubuntu:groovy    ### What is the name of the container that you would like
   mkdir -p /projects/p32234/projects/aerith
 
   curl -fsSL https://ollama.com/install.sh | sh
-
+  ollama pull llama3.3:70b
+  ollama pull llama2:7b
+  ollama pull llama3:8b
+  ollama pull tinyllama
+  ollama pull mistral
+  ollama pull codegemma:2b
+  ollama pull codegemma:7b
+  ollama pull starcoder2:3b
 #### %runscript Imagine you had just finished installing your program using the instructions in %post, what command(s) would you use to run it?
 
 %runscript 
