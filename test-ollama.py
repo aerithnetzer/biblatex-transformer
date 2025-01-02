@@ -76,7 +76,7 @@ def extract_bibtex(text):
         elif char == '}':
             brace_level -= 1
         if brace_level == 0 and in_braces:
-            # We've found the closing brace of the BibTeX entry
+            # Found the closing brace of the BibTeX entry
             end = idx + 1
             return text[start:end].strip()
     # If we reach here, braces were unbalanced
@@ -132,8 +132,7 @@ def main():
 
     # List of models to test (ensure these models are installed in Ollama)
     models = ['llama2:7b', 'llama3:8b', 'tinyllama', 'mistral', 'codegemma:2b',
-              'codegemma:7b', 'starcoder2:3b']  # Replace with your installed model names
-
+              'codegemma:7b', 'starcoder2:3b']
     results = []
 
     for model in models:

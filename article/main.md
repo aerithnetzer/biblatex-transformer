@@ -1,29 +1,31 @@
 ---
-title: Saving Time, Saving Money
-subtitle: Or, how to do metadata curation using LLMs locally.
+title: Does Microsoft *really* need more Money?
+subtitle: Evaluating Local Large Language Models For Machine-Readable Metadata Curation 
 author: Aerith Y. Netzer, 
 date: \today
 abstract: | 
-  In the past century, the well-documented consolidation of the academic publishing industry created economic conditions that incentivize universities to publish their own academic journals. While these journals are necessary and good, they are not as well-funded or well-staffed as corporate players. These preconditions necessitate university libraries and presses to use all resources at their disposal to make their publishing operations run at peak efficiency. A large opportunity cost incurred by the university-owned publisher is machine-actionable metadata creation, leading to a cropping of for- and non-profit players in the industry to provide these services. We present three insights [there is a better word than insights here] - that reference metadata curation using LLMs is possible, that we can run these LLMs on local hardware, and we end with some tutorials for replication at other university-owned presses.  
+  Northwestern University spent far too much time and effort curating citation data by hand. Here, we show that large language models can be an efficient way to convert plain-text citations to BibTeX for use in machine-actionable metadata. Further, we prove that these models can be run locally, without cloud compute cost. With these tools, university-owned publishing operations can increase their operating efficiency with no effect on quality.
 bibliography: ./references.bib
 csl: ./chicago-author-date.csl # or chicago-note-bibliography.csl for the Notes and Bibliography system
 header-includes:
   - \usepackage[margin=1in]{geometry}
 ---
+## About the Author
+
+Aerith Y. Netzer is the Digital Publishing and Repository Librarian at Northwestern University in Evanston, Illinois.
 
 ## Background and Motivation
 
 University-owned journal-publishing operations operate under far tighter
-economic constraints --- direct and opportunity --- and therefore must
+economic constraints---direct and opportunity---and therefore must
 solve the same problems of corporate academic publishers with a fraction
-of the resources available. One of these problems is reference metadata,
-i.e. machine-actionable references that are then used to count citations
+of the resources available.[@acrl2024] [@relxMarketSegments2023]One of these problems is reference metadata,
+i.e., machine-actionable references that are then used to count citations
 of articles. The act of capturing, counting, and using citations
 accurately allows for funding agencies, universities, and publishers to
 make data-driven decisions for funding allocation, allows for reviewers
 to validate the research of a manuscript, and allows for faster
-literature review. Here, we evaluate the use of local large language
-models to curate the metadata with minimal human intervention.
+literature review.
 
 ### An Example
 
@@ -35,21 +37,22 @@ format, from which we can build PDF and Web versions from a single
 source. But due to author unwillingness to use plaintext markup formats
 such as LaTeX or Markdown, we must recreate the bibliography.
 Previously, this meant looking up each source, adding them to a
-Zotero[@ZoteroYourPersonal] library, and then exporting the biblatex
-file for use as metadata in the web version of the article. This would
-allow for services such as Google Scholar and Web of Science to scrape
-the metadata and count citations for the cited articles. This allows for
-researchers conducting literature reviews to find articles easier and
-faster, and allows for easier cross-checking for dubious claims. The
-present system, can automate this labor-intensive machine-actionable
-metadata creation process. With the advent of Large Language Models
-(LLMs), we can create systems to parse out the plaintext citations in an
-article, pass it to a Large Language Model, and output a
-machine-actionable metadata citation entry.
+Zotero[@ZoteroYourPersonal] library, and then exporting the BibTeX
+file for use as metadata in the web version of the article. As Northwestern's
+journal-publishing operation is a one-woman show and quickly growing in complexity
+and scope, we found it necessary to find a way to find a faster way.
+
+There have been many projects aimed to converting plain-text to BibTeX
+using programmatic means, but are often limited to certain languages [@MakinoTakakisPage] or
+are dependent upon external data [@Text2bib]. As Large Language Models grew popular,
+we originally reached for the most popular option --- the GPT-3 and 3.5 API.
+However, it just seemed *wrong* to implement a closed-source large language model into
+our heretofore completely open-source publishing stack. Thus, we reached for another,
+more open, tool --- Ollama.
 
 ### Limitations and Concerns
 
-This analysis is --- by necessity --- is limited to works that appear in the
+This analysis is---by necessity---is limited to works that appear in the
 crossref API, creating a bias in the dataset against older works and
 academic monographs. While this limits the usefulness of this analysis to
 publishers whose specialty lies within fields where citations are limited
@@ -74,7 +77,7 @@ human oversight.
 
 ### Data Collection
 
-Data was collected via the CrossRef API @bartellRESTAPI. We sampled a DOI
+Data was collected via the CrossRef API [@bartellRESTAPI]. We sampled a DOI
 and randomly selected a plain-text citation style from the following list:
 
 1. Chicago Author-Date
@@ -108,11 +111,11 @@ the dataset.
 
 ### Analysis
 
-All language models were tested using the Ollama@OllamaOllama2025 toolkit using the
-Quest@QuestHighPerformanceComputing supercomputing cluster at Northwestern University,
-running in a singularity container.@kurtzerSingularityScientificContainers2017 Testing
+All language models were tested using the Ollama[@OllamaOllama2025] toolkit using the
+Quest [@QuestHighPerformanceComputing] supercomputing cluster at Northwestern University,
+running in a singularity container.[@kurtzerSingularityScientificContainers2017] Testing
 of all models took 14 hours to complete on two NVIDIA A100 Graphical Processing Units,
-one node with eight cores, and 128 gigabytes of memory.[^1] [^2] All code was written in
+one node with eight cores, and 128 gigabytes of memory.[^1][^2] All code was written in
 python using an Anaconda environment to aid in reproducible deployments of this code.
 
 We used the plain text citation given by the CrossRef API as a ground truth to which
@@ -133,16 +136,16 @@ the model would aspire to. We prompted each model with the same text:
 
 The following models were prompted:
 
-\begin{tabular}{l}
-codegemma:2b [@codegemma\_2024] \\
-codegemma:7b [@codegemma\_2024] \\
-llama2:7b [@touvronLlama2Open2023] \\
-llama3.3:70b [@llama3modelcard] \\
-llama3:8b [@llama3modelcard] \\
-mistral [@Mistral] \\
-starcoder2:3b [@li2023starcoder] \\
-tinyllama [@zhang2024tinyllama] \\
-\end{tabular}
+1. codegemma:2b[@codegemma_2024]
+2. codegemma:7b[@codegemma_2024]
+3. llama2:7b[@touvronLlama2Open2023]
+4. llama3.3:70b[@llama3modelcard]
+5. llama3:8b[@llama3modelcard]
+6. mistral:7b[@Mistral]
+7. starcoder2:3b[@li2023starcoder]
+8. tinyllama[@zhang2024tinyllama]
+
+These models were chosen to represent a range of model sizes and training methods.
 
 The following variables were saved to the output file of the model:
 
@@ -165,13 +168,14 @@ were used for analyzing the efficiency and effectiveness of each model.
 
 ### Model Effectiveness
 
-![Per Field Accuracy and Valid JSON of the Model](./overall_accuracy_comparison.png)
+![Per Field Accuracy and Valid BibTeX of the Model](./overall_accuracy_comparison.png)
 
 Unsurprisingly, llama3.3:70b, the most advanced and largest model of the chosen models,
 performed the best. Further, starcoder2:3b failed to create any valid BibTeX entries, whereas
 every other model created valid BibTeX for every citation.
 
 ![Model time to Generation](time_to_generation_boxplot.png)
+
 \newpage
 
 | Model               | Median Time to Generation (seconds) | Standard Deviation (seconds) |
@@ -193,11 +197,76 @@ Mistral and Codegemma, though, are very close behind, especially with their para
 much lower than llama3.3:70b, it may be economical for some publishing operations to use smaller models, decreasing their
 cost, while keeping parity with the accuracy of the model. Trading a .2% reduction in accuracy for, on average, a 5x faster computation is an effective strategy for this use case.
 
+\newpage
+
 ### Per-Field Accuracy
 
 ![Per-field accuracy by model](./per_field_accuracy_comparison.png)
 
+All models were very accurate in producing volume, year, and journal entries in BibTeX, while author, publisher, and school were the least accurate fields. This is because there is greater freedom and flexibility in how these fields are entered, and thus a correct and valid generated BibTeX need not be exactly the same as Crossref's representation of the same data. Future work should include creating a validator to identify equivalent author, publisher, and school names.
+
+For example, consider the following BibTeX entries:
+
+> {National Academy of Sciences, The}
+
+> {The National Academy of Sciences}
+
+While these entries refer to the same entity, they cannot be identified as the same programmatically, and are thus penalized as "inaccurate." Thus, the results in Figure 2 should be interpreted as the models' accuracy when using Crossref as the metric of accuracy. This analysis is useful because it shows which models are better-suited for this task, rather than the concluding 50% of the fields to be incorrect.
+
+## Following Along at Home
+
+While we ran these models on a supercomputer to aid in analysis. Models with parameter sizes of less than 10 billion can be run on consumer hardware.
+We recommend a computer with a dedicated, modern GPU (verified to work on the author's personal Nvidia 3080Ti, AMD Ryzen 6-core CPU, and 32 GB of RAM, and a top-of-the-line MacBook Pro M4 Series)
+
+For UNIX Systems, use cURL to install Ollama with one command:
+
+`curl -fsSL https://ollama.com/install.sh | sh`
+
+Then pull the model (we recommend mistral):
+`ollama pull mistral`
+
+Then, start an Ollama server listening on port 11434:
+
+```py
+def generate_text_with_ollama(model_name, prompt):
+    url = 'http://localhost:11434/api/generate'
+    payload = {
+        "model": model_name,
+        "prompt": prompt,
+        "temperature": 0,  # Make output more deterministic
+        "stop": ["\n\n"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.post(url, headers=headers,
+                             data=json.dumps(payload), stream=True)
+
+    # Handle streaming response
+    generated_text = ''
+    for line in response.iter_lines():
+        if line:
+            data = json.loads(line)
+            if data.get('done', False):
+                break
+            else:
+                generated_text += data.get('response', '')
+
+    return generated_text.strip()
+```
+
+You can then use pass any input you like to this function and return a generated BibTex Key. Full code sample
+is in the author's GitHub repo.
+
+## Conclusion
+
+For university-owned publishers, small, locally-available LLMs are capable of producing well-formed BibTeX.
+These models can be used to create machine-actionable citation metadata, automating a step in the publishing process.
+As of the publication of this paper, 7 billion parameter models, especially mistral, are capable of running on the latest laptops, and provide good performance at the least cost.
+
 ## Data and Code Availability
+
+The author strives to adhere to the FAIR guiding principles. Code and data used for this analysis is available on GitHub.[@AerithnetzerBiblatextransformer]
 
 \newpage
 

@@ -1,0 +1,4 @@
+Summary Statistics for TimeToGeneration:
+Mean: 1.62
+Median: 0.97
+Standard Deviation: 2.14
