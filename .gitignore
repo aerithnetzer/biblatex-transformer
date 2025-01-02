@@ -1,0 +1,5 @@
+.conda
+models/
+*.sif
+biblatex-conda
+slurm*
