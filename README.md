@@ -1,3 +1,3 @@
 # biblatex-transformer
 
-This repository contains code for a forthcoming article.
+This repository contains code for a forthcoming article. 

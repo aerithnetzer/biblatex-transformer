@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import glob
 
 # Step 1: Load all CSV files from the 'results/' directory
-file_paths = glob.glob('results/*.csv')
+file_paths = glob.glob("results/*.csv")
 
 # Combine all CSV files into a single DataFrame
 dataframes = [pd.read_csv(file_path) for file_path in file_paths]
@@ -11,21 +11,21 @@ combined_df = pd.concat(dataframes, ignore_index=True)
 
 # Step 2: Generate the box-and-whisker plot
 plt.figure(figsize=(10, 6))
-combined_df.boxplot(column='TimeToGeneration', by='Model', grid=False)
+combined_df.boxplot(column="TimeToGeneration", by="Model", grid=False)
 
 # Step 3: Customize the plot
-plt.title('Time to Generation by Model')
-plt.suptitle('')  # Remove the default pandas boxplot title
-plt.xlabel('Model')
-plt.ylabel('Time to Generation (seconds)')
+plt.title("Time to Generation by Model")
+plt.suptitle("")  # Remove the default pandas boxplot title
+plt.xlabel("Model")
+plt.ylabel("Time to Generation (seconds)")
 plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
 
 # Show the plot
 plt.tight_layout()
-plt.savefig("./article/time-to-generation.png", dpi=120)
+plt.savefig("./article/time-to-generation.png", dpi=300)
 
 # Calculate median and standard deviation
-stats = combined_df.groupby('Model')['TimeToGeneration'].agg(['median', 'std'])
+stats = combined_df.groupby("Model")["TimeToGeneration"].agg(["median", "std"])
 
 # Print markdown table
 print("| Model | Median Time to Generation (seconds) | Standard Deviation (seconds) |")
