@@ -1,3 +1,4 @@
+from csv import Error
 import os
 import glob
 import json
@@ -10,8 +11,8 @@ def is_valid_bibtex(entry):
     try:
         bibtexparser.loads(entry)
         return True
-    except:
-        return False
+    except Exception as e:
+        raise e
 
 
 def main():
