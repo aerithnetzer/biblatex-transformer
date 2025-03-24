@@ -20,12 +20,11 @@ def get_proportion_of_styles(file_path):
     style_proportions.plot.pie(autopct="%1.1f%%", startangle=140)
     plt.title("Proportion of Plain Text Citation Styles")
     plt.ylabel("")  # Hide the y-label
-    plt.savefig("./article/style_props.png", dpi=300)
-
+    plt.show()
     return style_proportions
 
 
-file_path = "output copy.csv"
+file_path = "./input_dataset.csv"
 unique_styles = get_unique_citation_styles(file_path)
 print(get_proportion_of_styles(file_path))
 for style in unique_styles:
